@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const articles = require("./articles");
+const articles = require("./articles"); // import articles
 const user = require("./users");
 const NotFoundError = require("../errorConstructors/NotFoundError");
 const { signup, signin } = require("../controllers/users");
