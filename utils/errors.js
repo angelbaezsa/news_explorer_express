@@ -31,6 +31,11 @@ const DEFAULT = {
   error: 500,
 };
 
+const TOOMANYREQUESTS = {
+  status: "You exceeded the request limit",
+  error: 429,
+};
+
 module.exports = {
   INVALID_DATA,
   NOTFOUND,
@@ -39,4 +44,5 @@ module.exports = {
   SUCCESSFUL,
   DUPLICATED,
   FORBIDDEN,
+  TOOMANYREQUESTS,
 };

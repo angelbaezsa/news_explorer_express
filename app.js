@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -14,17 +15,23 @@ const routes = require("./routes");
 const app = express();
 const { PORT = 3001 } = process.env;
 
-mongoose.connect("mongodb://localhost:27017/news_explorer_db", (r) =>
-  console.log(`DataBase error ${r}`)
-);
+const { limiter } = require("./utils/limiter");
+
+const DATABASESTRING =
+  process.env.CONNECTION_STRING || "mongodb://localhost:27017/news_explorer_db";
+
+mongoose.connect(DATABASESTRING, (r) => console.log(`DataBase error ${r}`));
 
 app.use(cors());
 app.use(requestLogger);
 app.use(express.json());
+app.use(helmet());
+app.use(limiter);
 
 app.use(routes);
 app.use(errorLogger);
 app.use(errors());
+app.use(limiter);
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`app listening on port: ${PORT}`));

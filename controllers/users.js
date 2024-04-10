@@ -6,7 +6,8 @@ const UnauthorizedError = require("../errorConstructors/UnauthorizedError");
 const ConflictError = require("../errorConstructors/ConflictError");
 const BadRequestError = require("../errorConstructors/BadRequestError");
 
-const { JWT_SECRET } = process.env;
+const { NODE_ENV } = process.env;
+const { JWT_SECRET } = require("../utils/config");
 
 const getCurrentUser = (req, res, next) => {
   // console.log(req.user);
@@ -21,7 +22,11 @@ const getCurrentUser = (req, res, next) => {
           name: user.name,
           email: user.email,
         },
-        token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" }),
+        token: jwt.sign(
+          { _id: user._id },
+          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+          { expiresIn: "7d" }
+        ),
       })
     )
     .catch((err) => {
@@ -39,7 +44,11 @@ const signin = (req, res, next) => {
           name: user.name,
           email: user.email,
         },
-        token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "7d" }),
+        token: jwt.sign(
+          { _id: user._id },
+          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+          { expiresIn: "7d" }
+        ),
       })
     )
     .catch(() => {
