@@ -17,8 +17,7 @@ const { PORT = 3001 } = process.env;
 
 const { limiter } = require("./utils/limiter");
 
-const DATABASESTRING =
-  process.env.CONNECTION_STRING || "mongodb://localhost:27017/news_explorer_db";
+const DATABASESTRING = process.env.DATABASE;
 
 mongoose.connect(DATABASESTRING, (r) => console.log(`DataBase error ${r}`));
 
